@@ -41,15 +41,14 @@ public final class Main {
 
         properties.ifPresent(props -> {
             final var mongoDbUri = props.getProperty(MONGODB_URI);
+            final var mongoDbUriLoggable = props.getProperty("mongodb.uri.loggable");
 
-            // @todo Obfuscate the secrets
-            this.logger.info("Connecting to {}", mongoDbUri);
+            this.logger.info("Connecting to {}", mongoDbUriLoggable);
 
             try (final var mongoClient = MongoClients.create(mongoDbUri)) {
                 ;
             } finally {
-                // @todo Obfuscate the secrets
-                this.logger.info("Disconnected from {}", mongoDbUri);
+                this.logger.info("Disconnected from {}", mongoDbUriLoggable);
             }
         });
 
@@ -91,6 +90,8 @@ public final class Main {
         this.logger.entry(appProperties);
 
         var mongoDbUri = appProperties.getProperty(MONGODB_URI);
+
+        appProperties.setProperty("mongodb.uri.loggable", mongoDbUri);
 
         final var configFileName = System.getProperty("app.configurationFile");
         final var configDirectory = new File(configFileName).getParent();
