@@ -38,6 +38,7 @@
     <mongodb.version>4.11.1</mongodb.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <reactivestreams.version>1.0.4</reactivestreams.version>
     <repository.manager>http://localhost:8081/nexus</repository.manager>
     <scm.url.base>svn://jonathan@localhost/IDEA</scm.url.base>
     <slf4j.version>2.0.9</slf4j.version>
@@ -328,8 +329,13 @@
     </dependency>
     <dependency>
       <groupId>org.mongodb</groupId>
-      <artifactId>mongodb-driver-sync</artifactId>
+      <artifactId>mongodb-driver-reactivestreams</artifactId>
       <version>${mongodb.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.reactivestreams</groupId>
+      <artifactId>reactive-streams</artifactId>
+      <version>${reactivestreams.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

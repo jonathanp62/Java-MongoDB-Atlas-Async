@@ -11,7 +11,7 @@ package net.jmp.demo.mongodb.atlas.async;
  * @since     0.1.0
  */
 
-import com.mongodb.client.MongoClients;
+import com.mongodb.reactivestreams.client.MongoClients;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,6 +26,7 @@ import org.slf4j.ext.XLogger;
 
 public final class Main {
     private static final String MONGODB_URI = "mongodb.uri";
+    private static final String MONGODB_URI_LOGGABLE = "mongodb.uri.loggable";
 
     private final XLogger logger = new XLogger(LoggerFactory.getLogger(this.getClass().getName()));
 
@@ -41,12 +42,12 @@ public final class Main {
 
         properties.ifPresent(props -> {
             final var mongoDbUri = props.getProperty(MONGODB_URI);
-            final var mongoDbUriLoggable = props.getProperty("mongodb.uri.loggable");
+            final var mongoDbUriLoggable = props.getProperty(MONGODB_URI_LOGGABLE);
 
             this.logger.info("Connecting to {}", mongoDbUriLoggable);
 
             try (final var mongoClient = MongoClients.create(mongoDbUri)) {
-                ;
+                new Find(props, mongoClient).run();
             } finally {
                 this.logger.info("Disconnected from {}", mongoDbUriLoggable);
             }
@@ -91,7 +92,7 @@ public final class Main {
 
         var mongoDbUri = appProperties.getProperty(MONGODB_URI);
 
-        appProperties.setProperty("mongodb.uri.loggable", mongoDbUri);
+        appProperties.setProperty(MONGODB_URI_LOGGABLE, mongoDbUri);
 
         final var configFileName = System.getProperty("app.configurationFile");
         final var configDirectory = new File(configFileName).getParent();
