@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.ext.XLogger;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.lt;
 
 final class Find {
     private final XLogger logger = new XLogger(LoggerFactory.getLogger(this.getClass().getName()));
@@ -63,10 +64,10 @@ final class Find {
         final var documentSubscriber = new PrintDocumentSubscriber(this.logger);
 
         collection.find(eq("title", "The Room"))
-                .projection(projectionFields)
-                .sort(Sorts.descending("imdb.rating"))
-                .first()
-                .subscribe(documentSubscriber);
+            .projection(projectionFields)
+            .sort(Sorts.descending("imdb.rating"))
+            .first()
+            .subscribe(documentSubscriber);
 
         documentSubscriber.await();
 
@@ -75,6 +76,28 @@ final class Find {
 
     private void findMultipleDocuments() {
         this.logger.entry();
+
+        final var database = this.mongoClient.getDatabase(this.dbName);
+        final var collection = database.getCollection(this.collectionName);
+
+        final var projectionFields = Projections.fields(
+                Projections.include("title", "runtime", "imdb"),
+                Projections.excludeId());
+
+        final var documentSubscriber = new PrintDocumentSubscriber(this.logger);
+
+        collection
+            .find(lt("runtime", 15))
+            .projection(projectionFields)
+            .sort(Sorts.descending("title"))
+            .subscribe(documentSubscriber);
+
+        documentSubscriber.await();
+
+        final var numberOfResults = documentSubscriber.getReceived().size();
+
+        this.logger.info("There are {} results available", numberOfResults);
+
         this.logger.exit();
     }
 }
