@@ -18,13 +18,6 @@ import com.mongodb.client.model.Sorts;
 
 import java.util.Properties;
 
-import java.util.concurrent.CountDownLatch;
-
-import org.bson.Document;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
 import org.slf4j.LoggerFactory;
 
 import org.slf4j.ext.XLogger;
@@ -60,7 +53,6 @@ final class Find {
     private void findOneDocument() {
         this.logger.entry();
 
-        final var latch = new CountDownLatch(1);
         final var database = this.mongoClient.getDatabase(this.dbName);
         final var collection = database.getCollection(this.collectionName);
 
@@ -68,19 +60,15 @@ final class Find {
                 Projections.include("title", "imdb"),
                 Projections.excludeId());
 
+        final var documentSubscriber = new PrintDocumentSubscriber(this.logger);
+
         collection.find(eq("title", "The Room"))
                 .projection(projectionFields)
                 .sort(Sorts.descending("imdb.rating"))
                 .first()
-                .subscribe(new MySubscriber(latch));
+                .subscribe(documentSubscriber);
 
-        try {
-            latch.await();  // Can provide a timeout
-        } catch (final InterruptedException ie) {
-            this.logger.catching(ie);
-
-            Thread.currentThread().interrupt();
-        }
+        documentSubscriber.await();
 
         this.logger.exit();
     }
@@ -88,36 +76,5 @@ final class Find {
     private void findMultipleDocuments() {
         this.logger.entry();
         this.logger.exit();
-    }
-
-    class MySubscriber implements Subscriber<Document> {
-        private final CountDownLatch latch;
-
-        MySubscriber(final CountDownLatch latch) {
-            super();
-
-            this.latch = latch;
-        }
-
-        @Override
-        public void onSubscribe(final Subscription subscription) {
-            subscription.request(1); // Number of elements to request of the publisher
-        }
-
-        @Override
-        public void onNext(final Document document) {
-            if (logger.isInfoEnabled())
-                logger.info(document.toJson());
-        }
-
-        @Override
-        public void onError(final Throwable throwable) {
-            logger.error(throwable.getMessage());
-        }
-
-        @Override
-        public void onComplete() {
-            this.latch.countDown();
-        }
     }
 }

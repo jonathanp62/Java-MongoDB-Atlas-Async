@@ -18,10 +18,9 @@
     </encoder>
   </appender>
 
- <logger name="net.jmp.demo.mongodb.atlas.async.Find" additivity="false" level="info">
+  <logger name="net.jmp.demo.mongodb.atlas.async.Find" additivity="false" level="info">
     <appender-ref ref="MAIN" />
   </logger>
-
   <logger name="net.jmp.demo.mongodb.atlas.async.Main" additivity="false" level="info">
     <appender-ref ref="MAIN" />
   </logger>
