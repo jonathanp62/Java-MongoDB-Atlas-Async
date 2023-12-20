@@ -13,7 +13,7 @@ package net.jmp.demo.mongodb.atlas.async;
 
 import java.util.function.Consumer;
 
-class ConsumerSubscriber<T> extends AbstractObservableSubscriber<T> {
+class ConsumerSubscriber<T> extends ObservableSubscriber<T> {
     private Consumer<T> consumer;
 
     ConsumerSubscriber(final Consumer<T> consumer) {
