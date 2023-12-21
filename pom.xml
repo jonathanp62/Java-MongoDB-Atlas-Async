@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+ @(#)pom.xml	0.3.0	12/21/2023
  @(#)pom.xml	0.2.0	12/20/2023
  @(#)pom.xml	0.1.0	12/15/2023
 
@@ -7,7 +8,7 @@
  All Rights Reserved.
  
  @author    Jonathan Parker
- @version   0.2.0
+ @version   0.3.0
  @since     0.1.0
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -17,7 +18,7 @@
   <groupId>net.jmp.demo.mongodb.atlas</groupId>
   <artifactId>mongodb-atlas-async</artifactId>
   <packaging>jar</packaging>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <name>MongoDB Demonstration using Atlas asynchronously</name>
   <description>
     A demonstration program of MongoDB that uses Atlas and is asynchronous
