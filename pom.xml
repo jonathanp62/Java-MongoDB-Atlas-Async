@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+ @(#)pom.xml	0.2.0	12/20/2023
  @(#)pom.xml	0.1.0	12/15/2023
 
  Copyright (c) Jonathan Martin Parker
  All Rights Reserved.
  
  @author    Jonathan Parker
- @version   0.1.0
+ @version   0.2.0
  @since     0.1.0
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -16,7 +17,7 @@
   <groupId>net.jmp.demo.mongodb.atlas</groupId>
   <artifactId>mongodb-atlas-async</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
   <name>MongoDB Demonstration using Atlas asynchronously</name>
   <description>
     A demonstration program of MongoDB that uses Atlas and is asynchronous
@@ -26,15 +27,6 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss zzz</maven.build.timestamp.format>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
-    <maven.plugin.clean.version>3.2.0</maven.plugin.clean.version>
-    <maven.plugin.compiler.version>3.10.1</maven.plugin.compiler.version>
-    <maven.plugin.dependency.version>3.3.0</maven.plugin.dependency.version>
-    <maven.plugin.enforcer.version>3.1.0</maven.plugin.enforcer.version>
-    <maven.plugin.install.version>3.0.1</maven.plugin.install.version>
-    <maven.plugin.jar.version>3.3.0</maven.plugin.jar.version>
-    <maven.plugin.javadoc.version>3.4.1</maven.plugin.javadoc.version>
-    <maven.plugin.resources.version>3.3.0</maven.plugin.resources.version>
-    <maven.plugin.source.version>3.2.1</maven.plugin.source.version>
     <mongodb.version>4.11.1</mongodb.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
