@@ -1,13 +1,14 @@
 package net.jmp.demo.mongodb.atlas.async;
 
 /*
- * (#)AbstractObservableSubscriber.java 0.1.0   12/19/2023
+ * (#)ObservableSubscriber.java 0.2.0   12/20/2023
+ * (#)ObservableSubscriber.java 0.1.0   12/19/2023
  *
  * Copyright (c) Jonathan M. Parker
  * All Rights Reserved.
  *
  * @author    Jonathan Parker
- * @version   0.1.0
+ * @version   0.2.0
  * @since     0.1.0
  */
 
@@ -24,14 +25,14 @@ import java.util.concurrent.TimeUnit;
 
 import static com.mongodb.internal.thread.InterruptionUtil.interruptAndCreateMongoInterruptedException;
 
-abstract class AbstractObservableSubscriber<T> implements Subscriber<T> {
+abstract class ObservableSubscriber<T> implements Subscriber<T> {
     private final List<T> received;
     private final List<RuntimeException> errors;
     private final CountDownLatch latch;
     private volatile Subscription subscription;
     private volatile boolean completed;
 
-    AbstractObservableSubscriber() {
+    ObservableSubscriber() {
         super();
 
         this.received = new ArrayList<>();
@@ -42,6 +43,8 @@ abstract class AbstractObservableSubscriber<T> implements Subscriber<T> {
     @Override
     public void onSubscribe(final Subscription s) {
         this.subscription = s;
+
+        this.subscription.request(Integer.MAX_VALUE);
     }
 
     @Override
@@ -97,13 +100,11 @@ abstract class AbstractObservableSubscriber<T> implements Subscriber<T> {
         return !receivedElements.isEmpty() ? receivedElements.get(0) : null;
     }
 
-    AbstractObservableSubscriber<T> await() {
+    ObservableSubscriber<T> await() {
         return this.await(60, TimeUnit.SECONDS);
     }
 
-    AbstractObservableSubscriber<T> await(final long timeout, final TimeUnit unit) {
-        this.subscription.request(Integer.MAX_VALUE);
-
+    ObservableSubscriber<T> await(final long timeout, final TimeUnit unit) {
         try {
             if (!this.latch.await(timeout, unit)) {
                 throw new MongoTimeoutException("Publisher onComplete timed out");

@@ -1,13 +1,14 @@
 package net.jmp.demo.mongodb.atlas.async;
 
 /*
+ * (#)Find.java 0.2.0   12/20/2023
  * (#)Find.java 0.1.0   12/16/2023
  *
  * Copyright (c) Jonathan M. Parker
  * All Rights Reserved.
  *
  * @author    Jonathan Parker
- * @version   0.1.0
+ * @version   0.2.0
  * @since     0.1.0
  */
 
@@ -44,8 +45,12 @@ final class Find {
         this.logger.entry();
         this.logger.info("Beginning find operations...");
 
-        this.findOneDocument();
-        this.findMultipleDocuments();
+        final var collections = new Collections(this.mongoClient);
+
+        if (collections.existsCollection(this.dbName, this.collectionName)) {
+            this.findOneDocument();
+            this.findMultipleDocuments();
+        }
 
         this.logger.info("Ending find operations.");
         this.logger.exit();
