@@ -50,6 +50,8 @@ public final class Main {
             try (final var mongoClient = MongoClients.create(mongoDbUri)) {
                 new Find(props, mongoClient).run();
                 new Insert(props, mongoClient).run();
+                // In Delete drop the collection
+                // Every subsequent operation can create then drop it as needed
             } finally {
                 this.logger.info("Disconnected from {}", mongoDbUriLoggable);
             }
