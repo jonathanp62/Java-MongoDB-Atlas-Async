@@ -6,6 +6,13 @@ package net.jmp.demo.mongodb.atlas.async;
  * Copyright (c) Jonathan M. Parker
  * All Rights Reserved.
  *
+ * For the purposes of learning and developing this
+ * demonstration program, this class borrows heavily
+ * from and acknowledges the following cited source
+ * module as developed by MongoDB, Inc.:
+ *
+ * https://github.com/mongodb/mongo-java-driver/blob/master/driver-reactive-streams/src/examples/reactivestreams/helpers/SubscriberHelpers.java
+ *
  * @author    Jonathan Parker
  * @version   0.1.0
  * @since     0.1.0
