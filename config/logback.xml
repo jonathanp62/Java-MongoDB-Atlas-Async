@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+ (#)logback.xml 0.4.0   01/02/2024
  (#)logback.xml 0.3.0   12/21/2023
  (#)logback.xml 0.2.0   12/20/2023
  (#)logback.xml 0.1.0   12/15/2023
@@ -9,7 +10,7 @@
  All Rights Reserved.
 
  @author    Jonathan Parker
- @version   0.3.0
+ @version   0.4.0
  @since     0.1.0
 -->
 
@@ -21,6 +22,9 @@
   </appender>
 
   <logger name="net.jmp.demo.mongodb.atlas.async.Collections" additivity="false" level="info">
+    <appender-ref ref="MAIN" />
+  </logger>
+  <logger name="net.jmp.demo.mongodb.atlas.async.Delete" additivity="false" level="info">
     <appender-ref ref="MAIN" />
   </logger>
   <logger name="net.jmp.demo.mongodb.atlas.async.Find" additivity="false" level="info">

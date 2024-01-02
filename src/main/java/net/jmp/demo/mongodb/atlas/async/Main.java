@@ -1,6 +1,7 @@
 package net.jmp.demo.mongodb.atlas.async;
 
 /*
+ * (#)Main.java 0.4.0   01/02/2024
  * (#)Main.java 0.3.0   12/21/2023
  * (#)Main.java 0.2.0   12/20/2023
  * (#)Main.java 0.1.0   12/15/2023
@@ -9,7 +10,7 @@ package net.jmp.demo.mongodb.atlas.async;
  * All Rights Reserved.
  *
  * @author    Jonathan Parker
- * @version   0.3.0
+ * @version   0.4.0
  * @since     0.1.0
  */
 
@@ -52,8 +53,7 @@ public final class Main {
                 new Find(props, mongoClient).run();
                 new Insert(props, mongoClient).run();
                 new UpdateAndReplace(props, mongoClient).run();
-                // In Delete drop the collection
-                // Every subsequent operation can create then drop it as needed
+                new Delete(props, mongoClient).run();
             } finally {
                 this.logger.info("Disconnected from {}", mongoDbUriLoggable);
             }
