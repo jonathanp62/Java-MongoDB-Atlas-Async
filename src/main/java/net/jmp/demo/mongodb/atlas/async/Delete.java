@@ -39,6 +39,7 @@ final class Delete {
         this.dbName = properties.getProperty("mongodb.delete.db", "training");
         this.collectionName = properties.getProperty("mongodb.delete.collection", "colors");
     }
+
     void run() {
         this.logger.entry();
         this.logger.info("Beginning delete operations...");
