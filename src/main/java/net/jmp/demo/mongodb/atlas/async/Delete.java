@@ -1,13 +1,14 @@
 package net.jmp.demo.mongodb.atlas.async;
 
 /*
+ * (#)Delete.java   0.7.0   01/09/2024
  * (#)Delete.java   0.4.0   01/02/2024
  *
  * Copyright (c) Jonathan M. Parker
  * All Rights Reserved.
  *
  * @author    Jonathan Parker
- * @version   0.4.0
+ * @version   0.7.0
  * @since     0.4.0
  */
 
@@ -66,7 +67,10 @@ final class Delete {
 
         deleteSubscriber.await();
 
-        this.logger.info("{} document(s) were deleted", deleteSubscriber.first().getDeletedCount());
+        if (deleteSubscriber.getError() == null)
+            this.logger.info("{} document(s) were deleted", deleteSubscriber.first().getDeletedCount());
+        else
+            this.logger.error(deleteSubscriber.getError().getMessage());
 
         this.logger.exit();
     }
@@ -84,13 +88,17 @@ final class Delete {
 
         deleteSubscriber.await();
 
-        final var document = deleteSubscriber.first();
+        if (deleteSubscriber.getError() == null) {
+            final var document = deleteSubscriber.first();
 
-        if (document != null) {
-            if (this.logger.isInfoEnabled())
-                this.logger.info("Deleted document: {}", document.toJson());
+            if (document != null) {
+                if (this.logger.isInfoEnabled())
+                    this.logger.info("Deleted document: {}", document.toJson());
+            } else {
+                this.logger.warn("No documents with a color of orange were found");
+            }
         } else {
-            this.logger.warn("No documents with a color of orange were found");
+            this.logger.error(deleteSubscriber.getError().getMessage());
         }
 
         this.logger.exit();
@@ -109,7 +117,10 @@ final class Delete {
 
         deleteSubscriber.await();
 
-        this.logger.info("{} document(s) were deleted", deleteSubscriber.first().getDeletedCount());
+        if (deleteSubscriber.getError() == null)
+            this.logger.info("{} document(s) were deleted", deleteSubscriber.first().getDeletedCount());
+        else
+            this.logger.error(deleteSubscriber.getError().getMessage());
 
         this.logger.exit();
     }
@@ -128,7 +139,10 @@ final class Delete {
 
         deleteSubscriber.await();
 
-        this.logger.info("{} document(s) were deleted", deleteSubscriber.first().getDeletedCount());
+        if (deleteSubscriber.getError() == null)
+            this.logger.info("{} document(s) were deleted", deleteSubscriber.first().getDeletedCount());
+        else
+            this.logger.error(deleteSubscriber.getError().getMessage());
 
         this.logger.exit();
     }

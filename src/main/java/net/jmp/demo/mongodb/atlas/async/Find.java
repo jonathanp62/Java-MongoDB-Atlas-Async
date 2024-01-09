@@ -1,6 +1,7 @@
 package net.jmp.demo.mongodb.atlas.async;
 
 /*
+ * (#)Find.java 0.7.0   01/09/2024
  * (#)Find.java 0.3.0   12/22/2023
  * (#)Find.java 0.2.0   12/20/2023
  * (#)Find.java 0.1.0   12/16/2023
@@ -9,7 +10,7 @@ package net.jmp.demo.mongodb.atlas.async;
  * All Rights Reserved.
  *
  * @author    Jonathan Parker
- * @version   0.3.0
+ * @version   0.7.0
  * @since     0.1.0
  */
 
@@ -77,6 +78,9 @@ final class Find {
 
         documentSubscriber.await();
 
+        if (documentSubscriber.getError() != null)
+            this.logger.error(documentSubscriber.getError().getMessage());
+
         this.logger.exit();
     }
 
@@ -100,9 +104,13 @@ final class Find {
 
         documentSubscriber.await();
 
-        final var numberOfResults = documentSubscriber.getReceived().size();
+        if (documentSubscriber.getError() == null) {
+            final var numberOfResults = documentSubscriber.getReceived().size();
 
-        this.logger.info("There are {} results available", numberOfResults);
+            this.logger.info("There are {} results available", numberOfResults);
+        } else {
+            this.logger.error(documentSubscriber.getError().getMessage());
+        }
 
         this.logger.exit();
     }

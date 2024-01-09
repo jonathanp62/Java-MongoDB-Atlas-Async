@@ -1,13 +1,14 @@
 package net.jmp.demo.mongodb.atlas.async;
 
 /*
+ * (#)UpdateArrays.java 0.7.0   01/09/2024
  * (#)UpdateArrays.java 0.5.0   01/08/2024
  *
  * Copyright (c) Jonathan M. Parker
  * All Rights Reserved.
  *
  * @author    Jonathan Parker
- * @version   0.5.0
+ * @version   0.7.0
  * @since     0.5.0
  */
 
@@ -96,9 +97,13 @@ final class UpdateArrays {
 
         subscriber.await();
 
-        objectId = Objects.requireNonNull(subscriber.first().getInsertedId()).asObjectId().getValue();
+        if (subscriber.getError() == null) {
+            objectId = Objects.requireNonNull(subscriber.first().getInsertedId()).asObjectId().getValue();
 
-        this.logger.info("Inserted document: {}", objectId);
+            this.logger.info("Inserted document: {}", objectId);
+        } else {
+            this.logger.error(subscriber.getError().getMessage());
+        }
 
         final var result = Optional.ofNullable(objectId);
 
@@ -124,14 +129,17 @@ final class UpdateArrays {
 
         subscriber.await();
 
-        final var document = subscriber.first();
+        if (subscriber.getError() == null) {
+            final var document = subscriber.first();
 
-        if (document != null) {
-            @SuppressWarnings("unchecked")
-            final List<Integer> quantities = document.get("quantities", List.class);
+            if (document != null) {
+                @SuppressWarnings("unchecked") final List<Integer> quantities = document.get("quantities", List.class);
 
-            if (quantities != null)
-                quantities.forEach(q -> this.logger.info("Quantity: {}", q));
+                if (quantities != null)
+                    quantities.forEach(q -> this.logger.info("Quantity: {}", q));
+            }
+        } else {
+            this.logger.error(subscriber.getError().getMessage());
         }
 
         this.logger.exit();
@@ -159,10 +167,15 @@ final class UpdateArrays {
 
         subscriber.await();
 
-        final var document = subscriber.first();
+        if (subscriber.getError() == null) {
+            final var document = subscriber.first();
 
-        if (document != null)
-            this.logger.info("Updated the {} document", document.get("color"));
+            if (document != null)
+                this.logger.info("Updated the {} document", document.get("color"));
+
+        } else {
+            this.logger.error(subscriber.getError().getMessage());
+        }
 
         this.logger.exit();
     }
@@ -182,10 +195,14 @@ final class UpdateArrays {
 
         collection.findOneAndUpdate(filter, update, options).subscribe(subscriber);
 
-        final var document = subscriber.first();
+        if (subscriber.getError() == null) {
+            final var document = subscriber.first();
 
-        if (document != null)
-            this.logger.info("Updated the {} document", document.get("color"));
+            if (document != null)
+                this.logger.info("Updated the {} document", document.get("color"));
+        } else {
+            this.logger.error(subscriber.getError().getMessage());
+        }
 
         this.logger.exit();
     }
@@ -209,10 +226,14 @@ final class UpdateArrays {
 
         subscriber.await();
 
-        final var document = subscriber.first();
+        if (subscriber.getError() == null) {
+            final var document = subscriber.first();
 
-        if (document != null)
-            this.logger.info("Updated the {} document", document.get("color"));
+            if (document != null)
+                this.logger.info("Updated the {} document", document.get("color"));
+        } else {
+            this.logger.error(subscriber.getError().getMessage());
+        }
 
         this.logger.exit();
     }
@@ -230,7 +251,10 @@ final class UpdateArrays {
 
         subscriber.await();
 
-        this.logger.info("{} document(s) were deleted", subscriber.first().getDeletedCount());
+        if (subscriber.getError() == null)
+            this.logger.info("{} document(s) were deleted", subscriber.first().getDeletedCount());
+        else
+            this.logger.error(subscriber.getError().getMessage());
 
         this.logger.exit();
     }

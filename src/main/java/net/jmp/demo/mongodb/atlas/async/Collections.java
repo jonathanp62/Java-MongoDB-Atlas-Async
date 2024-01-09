@@ -1,13 +1,14 @@
 package net.jmp.demo.mongodb.atlas.async;
 
 /*
+ * (#)Collections.java  0.7.0   01/09/2024
  * (#)Collections.java  0.2.0   12/20/2023
  *
  * Copyright (c) Jonathan M. Parker
  * All Rights Reserved.
  *
  * @author    Jonathan Parker
- * @version   0.2.0
+ * @version   0.7.0
  * @since     0.2.0
  */
 
@@ -50,16 +51,24 @@ final class Collections {
 
         listSubscriber.await();
 
-        final var collectionNames = listSubscriber.getReceived();
+        if (listSubscriber.getError() == null) {
+            final var collectionNames = listSubscriber.getReceived();
 
-        if (collectionNames.contains(collectionName)) {
-            result = true;
+            if (collectionNames.contains(collectionName)) {
+                result = true;
 
-            this.logger.info("Collection {} exists in database {}", collectionName, dbName);
+                this.logger.info("Collection {} exists in database {}", collectionName, dbName);
+            } else {
+                result = false;
+
+                this.logger.warn("Collection {} does not exist in database {}", collectionName, dbName);
+            }
         } else {
-            result = false;
+            final var error = listSubscriber.getError();
 
-            this.logger.warn("Collection {} does not exist in database {}", collectionName, dbName);
+            this.logger.error(error.getMessage());
+
+            throw new RuntimeException("Exception checking for collection " + collectionName, error);
         }
 
         this.logger.exit(result);

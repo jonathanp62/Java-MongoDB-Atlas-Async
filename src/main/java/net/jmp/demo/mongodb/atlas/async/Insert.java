@@ -1,15 +1,18 @@
 package net.jmp.demo.mongodb.atlas.async;
 
 /*
+ * (#)Insert.java   0.7.0   01/09/2024
  * (#)Insert.java   0.2.0   12/20/2023
  *
  * Copyright (c) Jonathan M. Parker
  * All Rights Reserved.
  *
  * @author    Jonathan Parker
- * @version   0.2.0
+ * @version   0.7.0
  * @since     0.2.0
  */
+
+import com.mongodb.MongoBulkWriteException;
 
 import com.mongodb.client.result.InsertManyResult;
 import com.mongodb.client.result.InsertOneResult;
@@ -130,7 +133,14 @@ final class Insert {
             result.getInsertedIds().values()
                     .forEach(id -> this.logger.info("Inserted document: {}", id.asObjectId().getValue()));
         } else {
-            this.logger.error(insertSubscriber.getError().getMessage());
+            final var error = insertSubscriber.getError();
+
+            this.logger.error(error.getMessage());
+
+            if (error instanceof MongoBulkWriteException mbwe) {
+                mbwe.getWriteResult().getInserts()
+                        .forEach(doc -> this.logger.info("Inserted document: {}", doc.getId().asObjectId().getValue()));
+            }
         }
 
         this.logger.exit();
