@@ -60,6 +60,7 @@ public final class Main {
                 new UpdateArrays(props, mongoClient).run();
                 new Upsert(props, mongoClient).run();
                 new Bulk(props, mongoClient).run();
+                new Query(props, mongoClient).run();
             } finally {
                 this.logger.info("Disconnected from {}", mongoDbUriLoggable);
             }
