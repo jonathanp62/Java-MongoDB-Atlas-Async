@@ -1,6 +1,7 @@
 package net.jmp.demo.mongodb.atlas.async;
 
 /*
+ * (#)Main.java 0.8.0   02/03/2024
  * (#)Main.java 0.7.0   01/09/2024
  * (#)Main.java 0.6.0   01/09/2024
  * (#)Main.java 0.5.0   01/08/2024
@@ -10,7 +11,7 @@ package net.jmp.demo.mongodb.atlas.async;
  * (#)Main.java 0.1.0   12/15/2023
  *
  * @author    Jonathan Parker
- * @version   0.7.0
+ * @version   0.8.0
  * @since     0.1.0
  *
  * MIT License
@@ -80,6 +81,7 @@ public final class Main {
                 new Upsert(props, mongoClient).run();
                 new Bulk(props, mongoClient).run();
                 new Query(props, mongoClient).run();
+                new Compound(props, mongoClient).run();
             } finally {
                 this.logger.info("Disconnected from {}", mongoDbUriLoggable);
             }

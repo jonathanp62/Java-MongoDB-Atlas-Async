@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+ (#)logback.xml 0.8.0   02/03/2024
  (#)logback.xml 0.7.0   01/11/2024
  (#)logback.xml 0.6.0   01/09/2024
  (#)logback.xml 0.5.0   01/08/2024
@@ -10,7 +11,7 @@
  (#)logback.xml 0.1.0   12/15/2023
 
  @author    Jonathan Parker
- @version   0.7.0
+ @version   0.8.0
  @since     0.1.0
 
  MIT License
@@ -47,6 +48,9 @@
     <appender-ref ref="MAIN" />
   </logger>
   <logger name="net.jmp.demo.mongodb.atlas.async.Collections" additivity="false" level="info">
+    <appender-ref ref="MAIN" />
+  </logger>
+  <logger name="net.jmp.demo.mongodb.atlas.async.Compound" additivity="false" level="info">
     <appender-ref ref="MAIN" />
   </logger>
   <logger name="net.jmp.demo.mongodb.atlas.async.Delete" additivity="false" level="info">
