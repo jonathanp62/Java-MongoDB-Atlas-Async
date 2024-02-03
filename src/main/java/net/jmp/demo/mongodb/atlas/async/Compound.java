@@ -1,7 +1,7 @@
 package net.jmp.demo.mongodb.atlas.async;
 
 /*
- * (#)Compopund.java    0.8.0   02/03/2024
+ * (#)Compound.java 0.8.0   02/03/2024
  *
  * @author    Jonathan Parker
  * @version   0.8.0
@@ -43,6 +43,7 @@ import com.mongodb.reactivestreams.client.MongoClient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 import java.util.concurrent.TimeUnit;
 
 import org.bson.Document;
@@ -77,6 +78,7 @@ final class Compound {
 
     void run() {
         this.logger.entry();
+        this.logger.info("Beginning compound operations...");
 
         this.insertData();
 
@@ -92,6 +94,7 @@ final class Compound {
             this.deleteData();
         }
 
+        this.logger.info("Ending compound operations...");
         this.logger.exit();
     }
 

@@ -80,6 +80,7 @@ final class Query {
 
     void run() {
         this.logger.entry();
+        this.logger.info("Beginning query operations...");
 
         this.insertData();
 
@@ -91,6 +92,7 @@ final class Query {
 
         this.deleteData();
 
+        this.logger.info("Ending query operations...");
         this.logger.exit();
     }
 
